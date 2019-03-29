@@ -10,29 +10,36 @@
 }
 RCT_EXPORT_MODULE()
 
-RCT_EXPORT_METHOD(authorization:(RCTResponseSenderBlock)callback)
+RCT_EXPORT_METHOD(authorization:(RCTPromiseResolveBlock)resolve reject:(RCTPromiseRejectBlock)reject)
 {
-  self.callback = callback;
+  self.resolveCallback = resolve;
+  self.rejectCallback = reject;
   CNAuthorizationStatus status = [CNContactStore authorizationStatusForEntityType:CNEntityTypeContacts];
   if (status == CNAuthorizationStatusNotDetermined) {
     CNContactStore *store = [[CNContactStore alloc] init];
     [store requestAccessForEntityType:CNEntityTypeContacts completionHandler:^(BOOL granted, NSError * _Nullable error) {
-      if (error) {
-        self.callback(@[@{@"authorization": @NO}]);
+      if (granted) {
+        self.resolveCallback(@YES);
       } else {
-        self.callback(@[@{@"authorization": @YES}]);
+        self.rejectCallback(@"", @"Unauthorized Access to Address Book.", error);
       }
     }];
+  } else if (status == CNAuthorizationStatusRestricted) {
+      self.rejectCallback(@"CNAuthorizationStatusRestricted", @"Users cannot change the status of this application.", nil);
+  } else if (status == CNAuthorizationStatusDenied) {
+      self.rejectCallback(@"CNAuthorizationStatusDenied", @"Users explicitly refuse access to the application's contact data.", nil);
   } else if (status == CNAuthorizationStatusAuthorized) {
-    self.callback(@[@{@"authorization": @YES}]);
+    self.resolveCallback(@YES);
   } else {
-    self.callback(@[@{@"authorization": @NO}]);
+    self.rejectCallback(@"unknown error", @"unknown error", nil);
   }
 }
 
-RCT_EXPORT_METHOD(launchContact:(NSDictionary *)options callback:(RCTResponseSenderBlock)callback)
+
+RCT_EXPORT_METHOD(launchContact:(NSDictionary *)options resolve:(RCTPromiseResolveBlock)resolve reject:(RCTPromiseRejectBlock)reject)
 {
-  self.callback = callback;
+  self.resolveCallback = resolve;
+  self.rejectCallback = reject;
   dispatch_async(dispatch_get_main_queue(), ^{
     UIViewController *root = RCTPresentedViewController();
     self.contactController = [[CNContactPickerViewController alloc] init];
@@ -45,8 +52,8 @@ RCT_EXPORT_METHOD(launchContact:(NSDictionary *)options callback:(RCTResponseSen
 - (void)contactPicker:(CNContactPickerViewController *)picker didSelectContactProperty:(CNContactProperty *)contactProperty {
   CNContact *contact = contactProperty.contact;
   CNPhoneNumber *phoneNumber = contactProperty.value;
-  NSDictionary *userInfo = @{@"givenName":contact.givenName,@"phoneNumber":phoneNumber.stringValue};
-  self.callback(@[userInfo]);
+  NSDictionary *userInfo = @{@"givenName":contact.givenName,@"familyName": contact.familyName,@"phoneNumber":phoneNumber.stringValue};
+  self.resolveCallback(userInfo);
 }
 
 @end

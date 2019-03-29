@@ -7,7 +7,8 @@
 @interface RNContacts : NSObject <RCTBridgeModule, CNContactViewControllerDelegate>
 
 @property (nonatomic, strong) CNContactPickerViewController *contactController;
-@property (nonatomic, strong) RCTResponseSenderBlock callback;
+@property (nonatomic, strong) RCTPromiseResolveBlock resolveCallback;
+@property (nonatomic, strong) RCTPromiseRejectBlock rejectCallback;
 
 @end
   

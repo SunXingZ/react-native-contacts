@@ -1,18 +1,40 @@
-
 {
-  "name": "react-native-contacts",
-  "version": "1.0.0",
-  "description": "",
-  "main": "index.js",
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+  "_from": "git+https://github.com/SunXingZ/react-native-contacts.git",
+  "_id": "react-native-contacts@1.0.0",
+  "_inBundle": false,
+  "_integrity": "",
+  "_location": "/react-native-contacts",
+  "_phantomChildren": {},
+  "_requested": {
+    "type": "git",
+    "raw": "https://github.com/SunXingZ/react-native-contacts.git",
+    "rawSpec": "https://github.com/SunXingZ/react-native-contacts.git",
+    "saveSpec": "git+https://github.com/SunXingZ/react-native-contacts.git",
+    "fetchSpec": "https://github.com/SunXingZ/react-native-contacts.git",
+    "gitCommittish": null
   },
+  "_requiredBy": [
+    "#USER",
+    "/"
+  ],
+  "_resolved": "git+https://github.com/SunXingZ/react-native-contacts.git#6b9e4123fe72f9b2e2dfe95ca99d0334fdaa1e21",
+  "_spec": "https://github.com/SunXingZ/react-native-contacts.git",
+  "_where": "/Users/fxj/Desktop/work/react-native-fangxinjia",
+  "author": "",
+  "bundleDependencies": false,
+  "deprecated": false,
+  "description": "## Getting started",
   "keywords": [
     "react-native"
   ],
-  "author": "",
   "license": "",
+  "main": "index.js",
+  "name": "react-native-contacts",
   "peerDependencies": {
     "react-native": "^0.41.2"
-  }
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "version": "1.0.0"
 }
