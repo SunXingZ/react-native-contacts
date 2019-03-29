@@ -1,11 +1,13 @@
 
-#if __has_include("RCTBridgeModule.h")
-#import "RCTBridgeModule.h"
-#else
 #import <React/RCTBridgeModule.h>
-#endif
+#import <Foundation/Foundation.h>
+#import <ContactsUI/ContactsUI.h>
+#import <UIKit/UIKit.h>
 
-@interface RNContacts : NSObject <RCTBridgeModule>
+@interface RNContacts : NSObject <RCTBridgeModule, CNContactViewControllerDelegate>
+
+@property (nonatomic, strong) CNContactPickerViewController *contactController;
+@property (nonatomic, strong) RCTResponseSenderBlock callback;
 
 @end
   
