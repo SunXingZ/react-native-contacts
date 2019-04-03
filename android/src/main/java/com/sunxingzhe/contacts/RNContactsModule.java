@@ -45,7 +45,11 @@ public class RNContactsModule extends ReactContextBaseJavaModule implements Acti
       if (callback == null) {
         return false;
       }
-      callback.resolve(permissionsGranted ? "true" : "false");
+      if (permissionsGranted) {
+        callback.resolve("true");
+      } else {
+        callback.reject("false");
+      }
       callback = null;
       return true;
     }
