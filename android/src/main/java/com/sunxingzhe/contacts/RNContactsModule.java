@@ -93,6 +93,21 @@ public class RNContactsModule extends ReactContextBaseJavaModule implements Acti
   }
 
   @ReactMethod
+  public void openSettings(final Promise callback) {
+    this.callback = callback;
+    final Activity currentActivity = getCurrentActivity();
+    if (currentActivity == null) {
+      this.callback.reject("can't find current Activity.");
+      this.callback = null;
+      return;
+    }
+    Intent intent = new Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS);
+    Uri uri = Uri.fromParts("package", getReactApplicationContext().getPackageName(), null);
+    intent.setData(uri);
+    currentActivity.startActivityForResult(intent, 2);
+  }
+
+  @ReactMethod
   public void launchContact(ReadableMap options, final Promise callback) {
     this.callback = callback;
     final Activity currentActivity = getCurrentActivity();
@@ -128,6 +143,8 @@ public class RNContactsModule extends ReactContextBaseJavaModule implements Acti
         } else {
           this.callback.reject("false");
         }
+      } else if (requestCode == 2) {
+        
       }
     }
     this.callback = null;

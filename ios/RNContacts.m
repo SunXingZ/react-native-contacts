@@ -35,6 +35,31 @@ RCT_EXPORT_METHOD(authorization:(RCTPromiseResolveBlock)resolve reject:(RCTPromi
   }
 }
 
+RCT_EXPORT_METHOD(openSettings:(RCTPromiseResolveBlock)resolve reject:(RCTPromiseRejectBlock)reject)
+{
+    self.resolveCallback = resolve;
+    self.rejectCallback = reject;
+    NSURL *settingUrl = [NSURL URLWithString:UIApplicationOpenSettingsURLString];
+    BOOL canOpen = [[UIApplication sharedApplication] canOpenURL:settingUrl];
+    CGFloat systemVersion = [[[UIDevice currentDevice] systemVersion] floatValue];
+    if (canOpen) {
+        if (systemVersion >= 8.0 && systemVersion < 10.0) {
+            [[UIApplication sharedApplication] openURL:settingUrl];
+            self.resolveCallback(@YES);
+        } else if (systemVersion >= 10.0) {
+            [[UIApplication sharedApplication] openURL:settingUrl options:@{} completionHandler:^(BOOL success) {
+                if (success) {
+                    self.resolveCallback(@YES);
+                } else {
+                    self.rejectCallback(@"can not open url", @"can not open url", nil);
+                }
+            }];
+        }
+    } else {
+        self.rejectCallback(@"can not open url", @"can not open url", nil);
+    }
+}
+
 
 RCT_EXPORT_METHOD(launchContact:(NSDictionary *)options resolve:(RCTPromiseResolveBlock)resolve reject:(RCTPromiseRejectBlock)reject)
 {
