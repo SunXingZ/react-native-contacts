@@ -20,8 +20,9 @@
   "_resolved": "git+https://github.com/SunXingZ/react-native-contacts.git#6b9e4123fe72f9b2e2dfe95ca99d0334fdaa1e21",
   "_spec": "https://github.com/SunXingZ/react-native-contacts.git",
   "_where": "/Users/fxj/Desktop/work/react-native-fangxinjia",
-  "author": "",
+  "author": "sunxingzhe",
   "bundleDependencies": false,
+  "private": false,
   "deprecated": false,
   "description": "## Getting started",
   "keywords": [
@@ -29,12 +30,13 @@
   ],
   "license": "",
   "main": "index.js",
-  "name": "react-native-contacts",
+  "name": "@sunxingzhe/react-native-contacts",
   "peerDependencies": {
     "react-native": "^0.41.2"
   },
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "publish": "npm publish --access public --registry http://registry.npmjs.org"
   },
   "version": "1.0.0"
 }
